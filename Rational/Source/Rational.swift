@@ -38,7 +38,7 @@ public struct Rational {
     public init?(_ numerator: Int, _ denominator:Int=1 ) {
         guard denominator != 0 else { return nil }
 
-        self.init(verified:self.dynamicType.normalize(numerator: numerator, denominator: denominator))
+        self.init(verified:Rational.normalizeSign(numerator: numerator, denominator: denominator))
     }
 
     public init(_ value: Double) {
@@ -59,10 +59,11 @@ extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
             fatalError("Rational can only be constructed using a normal double.")
         }
 
-        let thePower:Int = 10 ** self.dynamicType.findExponentForNumber(value)
+        let thePower:Int = 10 ** Rational.findExponentForNumber(value)
 
-        let theTuple = self.dynamicType.normalize(numerator: (value.isSignMinus ? -1 : 1) * lround(value * Double(thePower)), denominator: thePower)
-        self.init(verified:theTuple)
+        let theTuple:(n:Int, d:Int) = Rational.normalizeSign(numerator: (value.isSignMinus ? -1 : 1) * lround(value * Double(thePower)), denominator: thePower)
+        let theSimpleTuple:(Int, Int) = Rational.simplify(numerator: theTuple.n, denominator: theTuple.d)
+        self.init(verified:theSimpleTuple)
     }
 }
 
@@ -80,7 +81,10 @@ extension Rational {
         return  (sNumerator: numerator/common, sDenominator: denominator/common)
     }
 
-    internal static var normalize:(numerator: Int, denominator: Int) -> (Int, Int) = Rational.simplify • Rational.normalizeSign
+    public var simplify: Rational {
+        let (simpleNumerator, simpleDenominator) = Rational.simplify(numerator: numerator, denominator: denominator)
+        return Rational(verifiedNumerator: simpleNumerator, verifiedDenominator: simpleDenominator)
+    }
 }
 
 extension Rational : Hashable {
@@ -103,7 +107,9 @@ extension Rational : CustomStringConvertible {
 // MARK: - Math
 
 public func ==(lhs: Rational, rhs: Rational) -> Bool {
-    return lhs.numerator == rhs.numerator && lhs.denominator == rhs.denominator
+    let sLhs = lhs.simplify
+    let sRhs = rhs.simplify
+    return sLhs.numerator == sRhs.numerator && sLhs.denominator == sRhs.denominator
 }
 
 public func +(augend:Rational, addend:Rational) -> Rational {
@@ -115,12 +121,12 @@ public func -(subtrahend:Rational, diminuend:Rational) -> Rational {
 }
 
 public func *(multiplicand:Rational, multiplier:Rational) -> Rational {
-    let theTuple = Rational.normalize(numerator: multiplicand.numerator * multiplier.numerator, denominator: multiplicand.denominator * multiplier.denominator)
+    let theTuple = Rational.normalizeSign(numerator: multiplicand.numerator * multiplier.numerator, denominator: multiplicand.denominator * multiplier.denominator)
     return Rational(verified: theTuple)
 }
 
 public func /(dividend:Rational, divisor:Rational) -> Rational {
-    let theTuple = Rational.normalize(numerator: dividend.numerator * divisor.denominator, denominator: dividend.denominator * divisor.numerator)
+    let theTuple = Rational.normalizeSign(numerator: dividend.numerator * divisor.denominator, denominator: dividend.denominator * divisor.numerator)
     return Rational(verified: theTuple)
 }
 
@@ -150,7 +156,7 @@ extension Rational {
 
         let leftNumerator = lhs.numerator * (newDenominator / lhs.denominator)
         let rightNumerator = rhs.numerator * (newDenominator / rhs.denominator)
-        let theTuple = Rational.normalize(numerator: computeNumerator(lhsNumerator: leftNumerator, rhsNumerator: rightNumerator), denominator: newDenominator)
+        let theTuple = Rational.normalizeSign(numerator: computeNumerator(lhsNumerator: leftNumerator, rhsNumerator: rightNumerator), denominator: newDenominator)
         return Rational(verified: theTuple)
     }
 
