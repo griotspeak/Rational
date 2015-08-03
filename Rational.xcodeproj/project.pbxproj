@@ -46,7 +46,7 @@
 		32CD449A1B63F95F0042E80A /* RationalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RationalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		32CD449F1B63F95F0042E80A /* RationalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RationalTests.swift; sourceTree = "<group>"; };
 		32CD44A11B63F95F0042E80A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
+		32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = ../Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
 		32CD44B21B6413440042E80A /* Rational.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Rational.swift; path = Source/Rational.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,11 +70,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32A7BB4F1B6F777100B699B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		32CD44861B63F95F0042E80A = {
 			isa = PBXGroup;
 			children = (
 				32CC24E41B676636002A7235 /* Rational.playground */,
-				32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */,
 				32CD44921B63F95F0042E80A /* Rational */,
 				32CD449E1B63F95F0042E80A /* RationalTests */,
 				32CD44911B63F95F0042E80A /* Products */,
@@ -103,6 +110,7 @@
 		32CD449E1B63F95F0042E80A /* RationalTests */ = {
 			isa = PBXGroup;
 			children = (
+				32A7BB4F1B6F777100B699B5 /* Frameworks */,
 				32CD449F1B63F95F0042E80A /* RationalTests.swift */,
 				32CD44A11B63F95F0042E80A /* Info.plist */,
 			);
@@ -123,9 +131,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		32CD448F1B63F95F0042E80A /* Rational */ = {
+		32CD448F1B63F95F0042E80A /* Rational_OSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 32CD44A41B63F95F0042E80A /* Build configuration list for PBXNativeTarget "Rational" */;
+			buildConfigurationList = 32CD44A41B63F95F0042E80A /* Build configuration list for PBXNativeTarget "Rational_OSX" */;
 			buildPhases = (
 				32CD448B1B63F95F0042E80A /* Sources */,
 				32CD448C1B63F95F0042E80A /* Frameworks */,
@@ -136,7 +144,7 @@
 			);
 			dependencies = (
 			);
-			name = Rational;
+			name = Rational_OSX;
 			productName = Rational;
 			productReference = 32CD44901B63F95F0042E80A /* Rational.framework */;
 			productType = "com.apple.product-type.framework";
@@ -190,7 +198,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				32CD448F1B63F95F0042E80A /* Rational */,
+				32CD448F1B63F95F0042E80A /* Rational_OSX */,
 				32CD44991B63F95F0042E80A /* RationalTests */,
 			);
 		};
@@ -235,7 +243,7 @@
 /* Begin PBXTargetDependency section */
 		32CD449D1B63F95F0042E80A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 32CD448F1B63F95F0042E80A /* Rational */;
+			target = 32CD448F1B63F95F0042E80A /* Rational_OSX */;
 			targetProxy = 32CD449C1B63F95F0042E80A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -339,7 +347,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buttonsAndLights.Rational;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = $PROJECT_NAME;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -359,7 +367,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buttonsAndLights.Rational;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = $PROJECT_NAME;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -406,7 +414,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		32CD44A41B63F95F0042E80A /* Build configuration list for PBXNativeTarget "Rational" */ = {
+		32CD44A41B63F95F0042E80A /* Build configuration list for PBXNativeTarget "Rational_OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				32CD44A51B63F95F0042E80A /* Debug */,
