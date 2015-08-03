@@ -81,7 +81,7 @@ extension Rational {
         return  (sNumerator: numerator/common, sDenominator: denominator/common)
     }
 
-    public var simplify: Rational {
+    public var inLowestTerms: Rational {
         let (simpleNumerator, simpleDenominator) = Rational.simplify(numerator: numerator, denominator: denominator)
         return Rational(verifiedNumerator: simpleNumerator, verifiedDenominator: simpleDenominator)
     }
@@ -107,8 +107,8 @@ extension Rational : CustomStringConvertible {
 // MARK: - Math
 
 public func ==(lhs: Rational, rhs: Rational) -> Bool {
-    let sLhs = lhs.simplify
-    let sRhs = rhs.simplify
+    let sLhs = lhs.inLowestTerms
+    let sRhs = rhs.inLowestTerms
     return sLhs.numerator == sRhs.numerator && sLhs.denominator == sRhs.denominator
 }
 
