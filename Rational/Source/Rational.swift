@@ -6,6 +6,8 @@
 //  Copyright © 2015 Buttons and Lights LLC. All rights reserved.
 //
 
+import Darwin
+
 infix operator • { }
 
 internal func •<T, U, V>(f: U -> V, g: T -> U) -> T -> V {

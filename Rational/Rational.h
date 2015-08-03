@@ -6,7 +6,7 @@
 //  Copyright © 2015 Buttons and Lights LLC. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Rational.
 FOUNDATION_EXPORT double RationalVersionNumber;
