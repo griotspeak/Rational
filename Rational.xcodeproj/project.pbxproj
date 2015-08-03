@@ -10,6 +10,9 @@
 		32CD44941B63F95F0042E80A /* Rational.h in Headers */ = {isa = PBXBuildFile; fileRef = 32CD44931B63F95F0042E80A /* Rational.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		32CD449B1B63F95F0042E80A /* Rational.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CD44901B63F95F0042E80A /* Rational.framework */; };
 		32CD44A01B63F95F0042E80A /* RationalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD449F1B63F95F0042E80A /* RationalTests.swift */; };
+		32CD44AD1B63FBDB0042E80A /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */; };
+		32CD44B31B6413440042E80A /* Rational.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD44B21B6413440042E80A /* Rational.swift */; };
+		32CD44B91B64FEC30042E80A /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,13 +25,29 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		32CD44B81B64FEBA0042E80A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				32CD44B91B64FEC30042E80A /* SwiftCheck.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		32CC24E41B676636002A7235 /* Rational.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Rational.playground; sourceTree = "<group>"; };
 		32CD44901B63F95F0042E80A /* Rational.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Rational.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32CD44931B63F95F0042E80A /* Rational.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rational.h; sourceTree = "<group>"; };
 		32CD44951B63F95F0042E80A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32CD449A1B63F95F0042E80A /* RationalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RationalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		32CD449F1B63F95F0042E80A /* RationalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RationalTests.swift; sourceTree = "<group>"; };
 		32CD44A11B63F95F0042E80A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
+		32CD44B21B6413440042E80A /* Rational.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Rational.swift; path = Source/Rational.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32CD449B1B63F95F0042E80A /* Rational.framework in Frameworks */,
+				32CD44AD1B63FBDB0042E80A /* SwiftCheck.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +73,8 @@
 		32CD44861B63F95F0042E80A = {
 			isa = PBXGroup;
 			children = (
+				32CC24E41B676636002A7235 /* Rational.playground */,
+				32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */,
 				32CD44921B63F95F0042E80A /* Rational */,
 				32CD449E1B63F95F0042E80A /* RationalTests */,
 				32CD44911B63F95F0042E80A /* Products */,
@@ -72,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				32CD44931B63F95F0042E80A /* Rational.h */,
+				32CD44B21B6413440042E80A /* Rational.swift */,
 				32CD44951B63F95F0042E80A /* Info.plist */,
 			);
 			path = Rational;
@@ -125,6 +148,7 @@
 				32CD44961B63F95F0042E80A /* Sources */,
 				32CD44971B63F95F0042E80A /* Frameworks */,
 				32CD44981B63F95F0042E80A /* Resources */,
+				32CD44B81B64FEBA0042E80A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -142,6 +166,7 @@
 		32CD44871B63F95F0042E80A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Buttons and Lights LLC";
 				TargetAttributes = {
@@ -193,6 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32CD44B31B6413440042E80A /* Rational.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +328,7 @@
 		32CD44A51B63F95F0042E80A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -314,12 +341,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.buttonsAndLights.Rational;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		32CD44A61B63F95F0042E80A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -339,6 +368,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = RationalTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buttonsAndLights.RationalTests;
@@ -350,6 +383,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = RationalTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buttonsAndLights.RationalTests;
@@ -376,6 +413,7 @@
 				32CD44A61B63F95F0042E80A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		32CD44A71B63F95F0042E80A /* Build configuration list for PBXNativeTarget "RationalTests" */ = {
 			isa = XCConfigurationList;
@@ -384,6 +422,7 @@
 				32CD44A91B63F95F0042E80A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
