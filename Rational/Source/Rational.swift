@@ -44,6 +44,10 @@ public struct Rational {
     public init(_ value: Double) {
         self.init( floatLiteral: value )
     }
+
+    public init(_ value: Int) {
+        self.init(integerLiteral: value)
+    }
 }
 
 extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
@@ -104,12 +108,20 @@ extension Rational : CustomStringConvertible {
     }
 }
 
+
 // MARK: - Math
+extension Rational : Equatable /* @todo already filed radar against explicit requirement of Equatable 2015-08-04 */, Comparable {}
 
 public func ==(lhs: Rational, rhs: Rational) -> Bool {
     let sLhs = lhs.inLowestTerms
     let sRhs = rhs.inLowestTerms
     return sLhs.numerator == sRhs.numerator && sLhs.denominator == sRhs.denominator
+}
+
+public func <(lhs: Rational, rhs: Rational) -> Bool {
+    return Rational.findLeastCommonDenominatorAndApply(lhs, rhs: rhs) { (newLeft, newRight, _) in
+        return newLeft < newRight
+    }
 }
 
 public func +(augend:Rational, addend:Rational) -> Rational {
@@ -150,14 +162,23 @@ extension Rational {
         return (abs(lhs) / greatestCommonDivisor(lhs, rhs)) * abs(rhs)
     }
 
-    /* @todo figure out a good name 2015-07-28 */
-    static func findLeastCommonDenominatorAndOperateOnNumerators(lhs: Rational, rhs: Rational, computeNumerator:(lhsNumerator: Int, rhsNumerator:Int) -> Int) -> Rational {
+    static func findLeastCommonDenominatorAndApply<T>(lhs: Rational, rhs: Rational, transform:(lhsNumerator: Int, rhsNumerator:Int, denominator: Int) -> T) -> T {
         let newDenominator = Rational.leastCommonDenominator(lhs, rhs)
 
         let leftNumerator = lhs.numerator * (newDenominator / lhs.denominator)
         let rightNumerator = rhs.numerator * (newDenominator / rhs.denominator)
-        let theTuple = Rational.normalizeSign(numerator: computeNumerator(lhsNumerator: leftNumerator, rhsNumerator: rightNumerator), denominator: newDenominator)
-        return Rational(verified: theTuple)
+
+        return transform(lhsNumerator: leftNumerator, rhsNumerator: rightNumerator, denominator: newDenominator)
+    }
+
+    /* @todo figure out a good name 2015-07-28 */
+    static func findLeastCommonDenominatorAndOperateOnNumerators(lhs: Rational, rhs: Rational, computeNumerator:(newLeftNumerator: Int, newRightNumerator:Int) -> Int) -> Rational {
+
+        return findLeastCommonDenominatorAndApply(lhs, rhs: rhs) { (newLeftNumerator, newRightNumerator, denominator) -> Rational in
+            let theTuple = Rational.normalizeSign(numerator: computeNumerator(newLeftNumerator: newLeftNumerator, newRightNumerator: newRightNumerator), denominator: denominator)
+            return Rational(verified: theTuple)
+        }
+
     }
 
     static func greatestCommonDenominator(lhs: Rational, _ rhs: Rational) -> Int {
