@@ -89,6 +89,10 @@ extension Rational {
         let (simpleNumerator, simpleDenominator) = Rational.lowestTerms(numerator: numerator, denominator: denominator)
         return Rational(verifiedNumerator: simpleNumerator, verifiedDenominator: simpleDenominator)
     }
+
+    public init(equivalentTo r:Rational, multiplicand: Int) {
+        self.init(verified: Rational.normalizeSign(numerator: r.numerator * multiplicand, denominator: r.denominator * multiplicand))
+    }
 }
 
 extension Rational : Hashable {

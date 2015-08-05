@@ -2,5 +2,6 @@
 
 import Rational
 let oneHalf = Rational(0.5)
-let oneFourth = Rational(3, 6)!
-oneHalf + oneFourth + oneFourth
+let twoFourths = Rational(equivalentTo: oneHalf, multiplicand: 2)
+
+

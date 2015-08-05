@@ -81,12 +81,19 @@ class RationalTests: XCTestCase {
             return i * (j + k) == (i * j) + (i * k)
         }
 
+        property("Equivalence holds for `equivalent` method") <- forAll { (input:(Int, Rational)) in
+            let (i, r) = input
+            return (i != 0) ==> {
+                return Rational(equivalentTo: r, multiplicand: i) == r
+            }
+        }
+
         property("Multiplication's effect pivots on multiplicative identity") <- forAll { (input:(Int, Rational)) in
             let (i, r) = input
             let absI = abs(i)
             return (absI != 0) && (r.numerator != 0) ==> {
                 if r.numerator > r.denominator {
-                    return Rational(absI) * r > Rational(absI)
+                    return Rational(absI) * r > Rational(absI   )
                 } else if r.numerator < r.denominator {
                     return Rational(absI) * r < Rational(absI)
                 } else {
