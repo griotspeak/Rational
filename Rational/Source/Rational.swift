@@ -66,7 +66,7 @@ extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
         let thePower:Int = 10 ** Rational.findExponentForNumber(value)
 
         let theTuple:(n:Int, d:Int) = Rational.normalizeSign(numerator: (value.isSignMinus ? -1 : 1) * lround(value * Double(thePower)), denominator: thePower)
-        let theSimpleTuple:(Int, Int) = Rational.simplify(numerator: theTuple.n, denominator: theTuple.d)
+        let theSimpleTuple:(Int, Int) = Rational.lowestTerms(numerator: theTuple.n, denominator: theTuple.d)
         self.init(verified:theSimpleTuple)
     }
 }
@@ -80,13 +80,13 @@ extension Rational {
         }
     }
 
-    internal static func simplify(numerator numerator: Int, denominator:Int) -> (Int, Int) {
+    internal static func lowestTerms(numerator numerator: Int, denominator:Int) -> (Int, Int) {
         let common = greatestCommonDivisor(abs(numerator), abs(denominator))
         return  (sNumerator: numerator/common, sDenominator: denominator/common)
     }
 
-    public var inLowestTerms: Rational {
-        let (simpleNumerator, simpleDenominator) = Rational.simplify(numerator: numerator, denominator: denominator)
+    public var lowestTerms: Rational {
+        let (simpleNumerator, simpleDenominator) = Rational.lowestTerms(numerator: numerator, denominator: denominator)
         return Rational(verifiedNumerator: simpleNumerator, verifiedDenominator: simpleDenominator)
     }
 }
@@ -113,8 +113,8 @@ extension Rational : CustomStringConvertible {
 extension Rational : Equatable /* @todo already filed radar against explicit requirement of Equatable 2015-08-04 */, Comparable {}
 
 public func ==(lhs: Rational, rhs: Rational) -> Bool {
-    let sLhs = lhs.inLowestTerms
-    let sRhs = rhs.inLowestTerms
+    let sLhs = lhs.lowestTerms
+    let sRhs = rhs.lowestTerms
     return sLhs.numerator == sRhs.numerator && sLhs.denominator == sRhs.denominator
 }
 

@@ -93,7 +93,6 @@ class RationalTests: XCTestCase {
                     return Rational(absI) * r == Rational(absI)
                 }
             }
-
         }
     }
 }
