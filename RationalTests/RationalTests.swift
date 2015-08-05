@@ -86,7 +86,7 @@ class RationalTests: XCTestCase {
             let absI = abs(i)
             return (absI != 0) && (r.numerator != 0) ==> {
                 if r.numerator > r.denominator {
-                    return Rational(absI) * r > r
+                    return Rational(absI) * r > Rational(absI)
                 } else if r.numerator < r.denominator {
                     return Rational(absI) * r < Rational(absI)
                 } else {
