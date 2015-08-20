@@ -193,7 +193,7 @@ extension Rational {
         return leastCommonDivisor(lhs.denominator, rhs.denominator)
     }
 
-    public static func findExponentForNumber(input:Double) -> Int {
+    private static func findExponentForNumber(input:Double) -> Int {
 
         func _findExp(accum:Int, _ remainder:Double) -> (accum:Int, remainder:Double) {
             if remainder % 1 == 0 {
@@ -205,8 +205,6 @@ extension Rational {
 
         return _findExp(0, abs(input)).accum
     }
-    
-
 }
 
 
