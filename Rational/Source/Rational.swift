@@ -56,6 +56,7 @@ extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
         self.init(verifiedNumerator: value, verifiedDenominator: 1)
     }
 
+
     // Initialize a Rational from a double.
     public init(floatLiteral value: Double) {
         guard !value.isInfinite && !value.isNaN && !value.isSubnormal else {
@@ -65,9 +66,10 @@ extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
 
         let thePower:Int = 10 ** Rational.findExponentForNumber(value)
 
-        let theTuple:(n:Int, d:Int) = Rational.normalizeSign(numerator: (value.isSignMinus ? -1 : 1) * lround(value * Double(thePower)), denominator: thePower)
+        let isNegative = value.isSignMinus
+        let theTuple:(n:Int, d:Int) = Rational.normalizeSign(numerator: (isNegative ? -1 : 1) * lround(value * Double(thePower)), denominator: thePower)
         let theSimpleTuple:(Int, Int) = Rational.lowestTerms(numerator: theTuple.n, denominator: theTuple.d)
-        self.init(verified:theSimpleTuple)
+        self.init(verified:(theSimpleTuple.0 * (isNegative ? -1 : 1), theSimpleTuple.1))
     }
 }
 
@@ -223,4 +225,12 @@ internal func **(base: Double, power: Double) -> Double {
 
 internal func **(base: Float, power: Float) -> Float {
     return pow(base, power)
+}
+
+// MARK: -
+
+extension Double {
+    public init(rational: Rational) {
+        self.init(Double(rational.numerator) / Double(rational.denominator))
+    }
 }

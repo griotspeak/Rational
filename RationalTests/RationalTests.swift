@@ -87,6 +87,14 @@ class RationalTests: XCTestCase {
                 return Rational(equivalentTo: r, multiplicand: i) == r
             }
         }
+/*
+        /* @todo I can't seem to guarantee this, actually. 2015-08-21 */
+        property("Conversion through Double is not too lossy") <- forAll { (i:Rational) in
+            let lhs = Double(rational: i)
+            let rhs = Double(rational: Rational(floatLiteral: Double(rational: i)))
+            return lhs.distanceTo(rhs) <= DBL_EPSILON
+        }
+*/
 
         property("Multiplication's effect pivots on multiplicative identity") <- forAll { (input:(Int, Rational)) in
             let (i, r) = input
