@@ -5,6 +5,10 @@ SwiftCheck
 
 QuickCheck for Swift.
 
+For those already familiar with the Haskell library, check out the source.  For
+everybody else, see the [Tutorial Playground](Tutorial.playground) for a
+beginner-level introduction to the major concepts and use-cases of this library.
+ 
 Introduction
 ============
 
@@ -229,16 +233,60 @@ with custom generators as simple as possible:
 ```swift
 let onlyEven = Int.arbitrary.suchThat { $0 % 2 == 0 }
 
-let vowels = Gen.elements(["A", "E", "I", "O", "U" ])
+let vowels = Gen.fromElementsOf(["A", "E", "I", "O", "U" ])
 
 let randomHexValue = Gen<UInt>.choose((0, 15))
 
+let uppers : Gen<Character>= Gen<Character>.fromElementsIn("A"..."Z")
+let lowers : Gen<Character> = Gen<Character>.fromElementsIn("a"..."z")
+let numbers : Gen<Character> = Gen<Character>.fromElementsIn("0"..."9")
+ 
 /// This generator will generate `.None` 1/4 of the time and an arbitrary
 /// `.Some` 3/4 of the time
-let weightedOptionals = Gen.frequency([
-    (1, Gen.pure(OptionalOf(Optional<A>.None))),
-    (3, liftM({ OptionalOf(Optional<A>.Some($0)) })(m1: Int.arbitrary))
+let weightedOptionals = Gen<Int?>.frequency([
+	(1, Gen<Int?>.pure(nil)),
+	(3, Optional.Some <^> Int.arbitrary)
 ])
 ```
+ 
+For instances of many complex or "real world" generators, see 
+[`ComplexSpec.swift`](SwiftCheckTests/ComplexSpec.swift).
 
+System Requirements
+===================
+
+SwiftCheck supports OS X 10.9+ and iOS 7.0+.
+
+Setup
+=====
+
+SwiftCheck can be included one of two ways:
+
+**Using Carthage**
+
+- Add SwiftCheck to your Cartfile
+- Run `carthage update`
+- Drag the relevant copy of SwiftCheck into your project.
+- Expand the Link Binary With Libraries phase
+- Click the + and add SwiftCheck
+- Click the + at the top left corner to add a Copy Files build phase
+- Set the directory to `Frameworks`
+- Click the + and add SwiftCheck
+
+**Framework**
+
+- Drag SwiftCheck.xcodeproj into your project tree
+  as a subproject
+- Under your project's Build Phases, expand Target Dependencies
+- Click the + and add SwiftCheck
+- Expand the Link Binary With Libraries phase
+- Click the + and add SwiftCheck
+- Click the + at the top left corner to add a Copy Files build phase
+- Set the directory to Frameworks
+- Click the + and add SwiftCheck
+
+License
+=======
+
+SwiftCheck is released under the MIT license.
 

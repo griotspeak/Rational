@@ -19,7 +19,7 @@ class PropertySpec : XCTestCase {
 				return b == n
 			}.once
 		}
-		
+
 		property("Conjamb randomly picks from multiple generators") <- forAll { (n : Int, m : Int, o : Int) in
 			return conjamb({
 				return true <?> "picked 1"
@@ -28,6 +28,26 @@ class PropertySpec : XCTestCase {
 			}, {
 				return true <?> "picked 3"
 			})
+		}
+
+		property("Invert turns passing properties to failing properties") <- forAll { (n : Int) in
+			return n == n
+		}.invert.expectFailure
+
+		property("Invert turns failing properties to passing properties") <- forAll { (n : Int) in
+			return n != n
+		}.invert
+
+		property("Invert turns throwing properties to passing properties") <- forAll { (n : Int) in
+			throw SwiftCheckError.Bogus
+		}.invert
+
+		property("Invert does not affect discards") <- forAll { (n : Int) in
+			return Discard()
+		}.invert
+
+		property("Existential Quantification works") <- exists { (x : Int) in
+			return true
 		}
 	}
 }
