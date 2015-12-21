@@ -148,27 +148,27 @@ public func /(dividend:Rational, divisor:Rational) -> Rational {
     return Rational(verified: theTuple)
 }
 
-// MARK: Utilities
-
-/// Return the greatest common factor for the two integer arguments. This function uses the iterative Euclidean
-/// algorithm for calculating GCF.
-func greatestCommonDivisor(lhs: Int, _ rhs: Int) -> Int {
-    var a = lhs
-    var b = rhs
-    while b != 0 {
-        let t = b
-        b = a % b
-        a = t
-    }
-    return a
-}
-
 extension Rational {
-    static func leastCommonDivisor(lhs: Int, _ rhs: Int) -> Int {
+    // MARK: Utilities
+
+    /// Return the greatest common factor for the two integer arguments. This function uses the iterative Euclidean
+    /// algorithm for calculating GCF.
+    public static func greatestCommonDivisor(lhs: Int, _ rhs: Int) -> Int {
+        var a = lhs
+        var b = rhs
+        while b != 0 {
+            let t = b
+            b = a % b
+            a = t
+        }
+        return a
+    }
+
+    public static func leastCommonMultiple(lhs: Int, _ rhs: Int) -> Int {
         return (abs(lhs) / greatestCommonDivisor(lhs, rhs)) * abs(rhs)
     }
 
-    static func findLeastCommonDenominatorAndApply<T>(lhs: Rational, rhs: Rational, transform:(lhsNumerator: Int, rhsNumerator:Int, denominator: Int) -> T) -> T {
+    public static func findLeastCommonDenominatorAndApply<T>(lhs: Rational, rhs: Rational, transform:(lhsNumerator: Int, rhsNumerator:Int, denominator: Int) -> T) -> T {
         let newDenominator = Rational.leastCommonDenominator(lhs, rhs)
 
         let leftNumerator = lhs.numerator * (newDenominator / lhs.denominator)
@@ -178,7 +178,7 @@ extension Rational {
     }
 
     /* @todo figure out a good name 2015-07-28 */
-    static func findLeastCommonDenominatorAndOperateOnNumerators(lhs: Rational, rhs: Rational, computeNumerator:(newLeftNumerator: Int, newRightNumerator:Int) -> Int) -> Rational {
+    public static func findLeastCommonDenominatorAndOperateOnNumerators(lhs: Rational, rhs: Rational, computeNumerator:(newLeftNumerator: Int, newRightNumerator:Int) -> Int) -> Rational {
 
         return findLeastCommonDenominatorAndApply(lhs, rhs: rhs) { (newLeftNumerator, newRightNumerator, denominator) -> Rational in
             let theTuple = Rational.normalizeSign(numerator: computeNumerator(newLeftNumerator: newLeftNumerator, newRightNumerator: newRightNumerator), denominator: denominator)
@@ -192,7 +192,7 @@ extension Rational {
     }
 
     static func leastCommonDenominator(lhs: Rational, _ rhs: Rational) -> Int {
-        return leastCommonDivisor(lhs.denominator, rhs.denominator)
+        return leastCommonMultiple(lhs.denominator, rhs.denominator)
     }
 
     private static func findExponentForNumber(input:Double) -> Int {
