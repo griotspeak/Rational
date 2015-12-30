@@ -207,6 +207,8 @@ extension Rational {
 
         return _findExp(0, abs(input)).accum
     }
+
+    /* TODO: least common multiple 2015-12-30 */
 }
 
 
