@@ -1,1 +1,1 @@
-github "CodaFi/SwiftCheck" "work-stealing"
+github "typelift/SwiftCheck" ~> 0.5

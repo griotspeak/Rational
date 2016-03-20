@@ -143,7 +143,7 @@ let biasedUppersAndLowers = Gen<Character>.frequency([
 	(3, lowerCaseLetters),
 ])
 
-//: `Gen`erators can even filter, modify, or combine the elements they create.
+//: `Gen`erators can even filter, modify, or combine the elements they create to produce.
 
 // `suchThat` takes a predicate function that filters generated elements.
 let oneToFiveEven = fromOnetoFive.suchThat { $0 % 2 == 0 }
@@ -167,7 +167,8 @@ oddLengthArrays.generate.count
 oddLengthArrays.generate.count
 
 
-//: Generators also admit functional methods like `map` and `flatMap`.
+//: Generators also admit functional methods like `map` and `flatMap`, but with different names than
+//: you might be used to.
 
 // `Gen.map` works exactly like Array's `map` method; it applies the function to any
 // values it generates.
@@ -218,7 +219,6 @@ generatorBoundedSizeArrays_.generate
 generatorBoundedSizeArrays_.generate
 generatorBoundedSizeArrays_.generate
 
-//: # Practical Generators
 
 //: For our purposes, we will say that an email address consists of 3 parts: A local part, a
 //: hostname, and a Top-Level Domain each separated by an `@`, and a `.` respectively.
@@ -240,16 +240,15 @@ let allowedLocalCharacters : Gen<Character> = Gen<Character>.oneOf([
 ])
 
 
-//: Now we need a `String` made of these characters. so we'll just `proliferate` an array of characters and `map`
+//: Now we need a `String` made of these characters. so we'll just `proliferate` an array of characters and `fmap`
 //: to get a `String` back.
 
 let localEmail = allowedLocalCharacters
 					.proliferateNonEmpty // Make a non-empty array of characters
 					.suchThat({ $0[$0.endIndex.predecessor()] != "." }) // Such that the last character isn't a dot.
 					.map(String.init) // Then make a string.
-
 //: The RFC says that the host name can only consist of lowercase letters, numbers, and dashes.  We'll skip some
-//: steps here and combine them all into one big generator.
+//: steps here and combine both steps into one big generator.
 
 let hostname = Gen<Character>.oneOf([
 	lowerCaseLetters,
@@ -264,7 +263,7 @@ let tld = lowerCaseLetters
 			.suchThat({ $0.count > 1 })
 			.map(String.init)
 
-//: So now that we've got all the pieces, so how do we put them together to make the final generator?  Well, how
+//: So now we've got all the pieces together, so how do we put them together to make the final generator?  Well, how
 //: about some glue?
 
 // Concatenates an array of `String` `Gen`erators together in order.
@@ -281,7 +280,13 @@ emailGen.generate
 emailGen.generate
 emailGen.generate
 
-
+//: By now you may be asking "why do we need all of this in the first place?  Can't we just apply
+//: the parts to the function to get back a result?"  Well, we do it because we aren't working with
+//: `Character`s or `String`s or `Array`s, we're working with `Gen<String>`.  And we can't apply
+//: `Gen<String>` to a function that expects `String`, that wouldn't make any sense - and it would
+//: never compile!  Instead we use these operators to "lift" our function over `String`s to
+//: functions over `Gen<String>`s.
+//:
 //: Complex cases like the above are rare in practice.  Most of the time you won't even need to use
 //: generators at all!  This brings us to one of the most important parts of SwiftCheck:
 
@@ -313,7 +318,6 @@ emailGen.generate
 //: to write yourself.  But before that, let's try to write an `Arbitrary` instance for `NSDate`.
 
 import class Foundation.NSDate
-import typealias Foundation.NSTimeInterval
 
 //: Here's the obvious way to do it
 //
@@ -508,9 +512,6 @@ property("email addresses don't come with a TLD") <- forAll { (email : Arbitrary
 
 //: Let's put all of our newfound understanding of this framework to use by writing a property that
 //: tests an implementation of the Sieve of Eratosthenes:
-
-import func Darwin.ceil
-import func Darwin.sqrt
 
 // The Sieve of Eratosthenes:
 //
