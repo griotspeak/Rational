@@ -19,6 +19,10 @@
 		32CD44AD1B63FBDB0042E80A /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */; };
 		32CD44B31B6413440042E80A /* Rational.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD44B21B6413440042E80A /* Rational.swift */; };
 		32CD44B91B64FEC30042E80A /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		32D660451CA595B000569CA8 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D660441CA595B000569CA8 /* Int.swift */; };
+		32D660461CA595B000569CA8 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D660441CA595B000569CA8 /* Int.swift */; };
+		32D6604A1CA5967600569CA8 /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D660471CA5960000569CA8 /* IntTests.swift */; };
+		32D6604B1CA5967800569CA8 /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D660471CA5960000569CA8 /* IntTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +78,8 @@
 		32CD44A11B63F95F0042E80A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32CD44AC1B63FBDB0042E80A /* SwiftCheck.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCheck.framework; path = ../Carthage/Build/Mac/SwiftCheck.framework; sourceTree = "<group>"; };
 		32CD44B21B6413440042E80A /* Rational.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Rational.swift; path = Source/Rational.swift; sourceTree = "<group>"; };
+		32D660441CA595B000569CA8 /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Int.swift; path = Source/Int.swift; sourceTree = "<group>"; };
+		32D660471CA5960000569CA8 /* IntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +132,7 @@
 			children = (
 				32CD44931B63F95F0042E80A /* Rational.h */,
 				32CD44B21B6413440042E80A /* Rational.swift */,
+				32D660441CA595B000569CA8 /* Int.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -142,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				32CD449F1B63F95F0042E80A /* RationalTests.swift */,
+				32D660471CA5960000569CA8 /* IntTests.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -387,6 +395,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32A7BB701B6F79B700B699B5 /* Rational.swift in Sources */,
+				32D660461CA595B000569CA8 /* Int.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32A7BB761B6F7A4600B699B5 /* RationalTests.swift in Sources */,
+				32D6604B1CA5967800569CA8 /* IntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +413,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32CD44B31B6413440042E80A /* Rational.swift in Sources */,
+				32D660451CA595B000569CA8 /* Int.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32CD44A01B63F95F0042E80A /* RationalTests.swift in Sources */,
+				32D6604A1CA5967600569CA8 /* IntTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

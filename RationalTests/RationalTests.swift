@@ -18,6 +18,13 @@ extension Rational : Arbitrary {
     public static var arbitrary: SwiftCheck.Gen<Rational> {
         return Rational.create <^> Int.arbitrary <*> Int.arbitrary.suchThat { $0 != 0 }
     }
+
+    public static func shrink(value: Rational) -> [Rational] {
+        let numerators = value.numerator...0
+        let denominators = value.denominator..<0
+
+        return Array(numerators.flatMap { Rational($0, value.denominator) }) + Array(denominators.flatMap { Rational(value.numerator, $0) })
+    }
 }
 
 class RationalTests: XCTestCase {
