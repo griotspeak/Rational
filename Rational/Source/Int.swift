@@ -32,8 +32,4 @@ extension Int {
     internal func quotRem(other:Int) -> (quotient:Int, remainder:Int) {
         return (self / other, self % other)
     }
-
-    internal func quotMod(other:Int) -> (quotient:Int, remainder:Int) {
-        return (self / other, divMod(other).modulus)
-    }
 }
