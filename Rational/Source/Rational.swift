@@ -148,6 +148,10 @@ public func /(dividend:Rational, divisor:Rational) -> Rational {
     return Rational(verified: theTuple)
 }
 
+public func %(subtrahend:Rational, diminuend:Rational) -> Rational {
+    return Rational.findLeastCommonDenominatorAndOperateOnNumerators(subtrahend, rhs: diminuend, computeNumerator: %).lowestTerms
+}
+
 extension Rational {
     // MARK: Utilities
 
