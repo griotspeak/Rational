@@ -7,8 +7,3 @@ let intermediate = Double(rational: original)
 let result = Rational(intermediate)
 
 Double(rational: original - result)
-
-
-
-
-

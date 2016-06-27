@@ -11,7 +11,7 @@ import SwiftCheck
 @testable import Rational
 
 extension Rational : Arbitrary {
-    internal static func create(numerator n: Int) -> Int -> Rational {
+    internal static func create(numerator n: Int) -> (Int) -> Rational {
         return { d in Rational(n, d)! }
     }
 
@@ -19,7 +19,7 @@ extension Rational : Arbitrary {
         return Rational.create <^> Int.arbitrary <*> Int.arbitrary.suchThat { $0 != 0 }
     }
 
-    public static func shrink(value: Rational) -> [Rational] {
+    public static func shrink(_ value: Rational) -> [Rational] {
         let numerators = value.numerator...0
         let denominators = value.denominator..<0
 

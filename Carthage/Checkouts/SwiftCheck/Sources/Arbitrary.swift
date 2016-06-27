@@ -61,16 +61,25 @@ extension Arbitrary {
 	}
 }
 
-extension IntegerType {
+extension Integer {
 	/// Shrinks any `IntegerType`.
 	public var shrinkIntegral : [Self] {
 		return unfoldr({ i in
 			if i <= 0 {
-				return .None
+				return .none
 			}
 			let n = i / 2
-			return .Some((n, n))
+			return .some((n, n))
 		}, initial: self < 0 ? (Self.multiplyWithOverflow(self, -1).0) : self)
+	}
+}
+
+extension RawRepresentable where RawValue: Arbitrary {
+	/// Default implementation, maps arbitrary values of its `RawValue` type 
+	/// until a valid representation is obtained.  Naturally, you should strive
+	/// to override this with a more efficient version.
+	public static var arbitrary: Gen<Self> {
+		return RawValue.arbitrary.map(Self.init).suchThat { $0 != nil }.map { $0! }
 	}
 }
 
@@ -81,7 +90,7 @@ extension Bool : Arbitrary {
 	}
 
 	/// The default shrinking function for `Bool`ean values.
-	public static func shrink(x : Bool) -> [Bool] {
+	public static func shrink(_ x : Bool) -> [Bool] {
 		if x {
 			return [false]
 		}
@@ -98,7 +107,7 @@ extension Int : Arbitrary {
 	}
 
 	/// The default shrinking function for `Int` values.
-	public static func shrink(x : Int) -> [Int] {
+	public static func shrink(_ x : Int) -> [Int] {
 		return x.shrinkIntegral
 	}
 }
@@ -112,7 +121,7 @@ extension Int8 : Arbitrary {
 	}
 
 	/// The default shrinking function for `Int8` values.
-	public static func shrink(x : Int8) -> [Int8] {
+	public static func shrink(_ x : Int8) -> [Int8] {
 		return x.shrinkIntegral
 	}
 }
@@ -126,7 +135,7 @@ extension Int16 : Arbitrary {
 	}
 
 	/// The default shrinking function for `Int16` values.
-	public static func shrink(x : Int16) -> [Int16] {
+	public static func shrink(_ x : Int16) -> [Int16] {
 		return x.shrinkIntegral
 	}
 }
@@ -140,7 +149,7 @@ extension Int32 : Arbitrary {
 	}
 
 	/// The default shrinking function for `Int32` values.
-	public static func shrink(x : Int32) -> [Int32] {
+	public static func shrink(_ x : Int32) -> [Int32] {
 		return x.shrinkIntegral
 	}
 }
@@ -154,7 +163,7 @@ extension Int64 : Arbitrary {
 	}
 
 	/// The default shrinking function for `Int64` values.
-	public static func shrink(x : Int64) -> [Int64] {
+	public static func shrink(_ x : Int64) -> [Int64] {
 		return x.shrinkIntegral
 	}
 }
@@ -166,7 +175,7 @@ extension UInt : Arbitrary {
 	}
 
 	/// The default shrinking function for `UInt` values.
-	public static func shrink(x : UInt) -> [UInt] {
+	public static func shrink(_ x : UInt) -> [UInt] {
 		return x.shrinkIntegral
 	}
 }
@@ -180,7 +189,7 @@ extension UInt8 : Arbitrary {
 	}
 
 	/// The default shrinking function for `UInt8` values.
-	public static func shrink(x : UInt8) -> [UInt8] {
+	public static func shrink(_ x : UInt8) -> [UInt8] {
 		return x.shrinkIntegral
 	}
 }
@@ -192,7 +201,7 @@ extension UInt16 : Arbitrary {
 	}
 
 	/// The default shrinking function for `UInt16` values.
-	public static func shrink(x : UInt16) -> [UInt16] {
+	public static func shrink(_ x : UInt16) -> [UInt16] {
 		return x.shrinkIntegral
 	}
 }
@@ -204,7 +213,7 @@ extension UInt32 : Arbitrary {
 	}
 
 	/// The default shrinking function for `UInt32` values.
-	public static func shrink(x : UInt32) -> [UInt32] {
+	public static func shrink(_ x : UInt32) -> [UInt32] {
 		return x.shrinkIntegral
 	}
 }
@@ -216,7 +225,7 @@ extension UInt64 : Arbitrary {
 	}
 
 	/// The default shrinking function for `UInt64` values.
-	public static func shrink(x : UInt64) -> [UInt64] {
+	public static func shrink(_ x : UInt64) -> [UInt64] {
 		return x.shrinkIntegral
 	}
 }
@@ -241,13 +250,13 @@ extension Float : Arbitrary {
 	}
 
 	/// The default shrinking function for `Float` values.
-	public static func shrink(x : Float) -> [Float] {
+	public static func shrink(_ x : Float) -> [Float] {
 		return unfoldr({ i in
 			if i == 0.0 {
-				return .None
+				return .none
 			}
 			let n = i / 2.0
-			return .Some((n, n))
+			return .some((n, n))
 		}, initial: x)
 	}
 }
@@ -272,13 +281,13 @@ extension Double : Arbitrary {
 	}
 
 	/// The default shrinking function for `Double` values.
-	public static func shrink(x : Double) -> [Double] {
+	public static func shrink(_ x : Double) -> [Double] {
 		return unfoldr({ i in
 			if i == 0.0 {
-				return .None
+				return .none
 			}
 			let n = i / 2.0
-			return .Some((n, n))
+			return .some((n, n))
 		}, initial: x)
 	}
 }
@@ -290,7 +299,7 @@ extension UnicodeScalar : Arbitrary {
 	}
 
 	/// The default shrinking function for `UnicodeScalar` values.
-	public static func shrink(x : UnicodeScalar) -> [UnicodeScalar] {
+	public static func shrink(_ x : UnicodeScalar) -> [UnicodeScalar] {
 		let s : UnicodeScalar = UnicodeScalar(UInt32(tolower(Int32(x.value))))
 		return [ "a", "b", "c", s, "A", "B", "C", "1", "2", "3", "\n", " " ].nub.filter { $0 < x }
 	}
@@ -304,7 +313,7 @@ extension String : Arbitrary {
 	}
 
 	/// The default shrinking function for `String` values.
-	public static func shrink(s : String) -> [String] {
+	public static func shrink(_ s : String) -> [String] {
 		return [Character].shrink([Character](s.characters)).map { String($0) }
 	}
 }
@@ -316,23 +325,16 @@ extension Character : Arbitrary {
 	}
 
 	/// The default shrinking function for `Character` values.
-	public static func shrink(x : Character) -> [Character] {
+	public static func shrink(_ x : Character) -> [Character] {
 		let ss = String(x).unicodeScalars
 		return UnicodeScalar.shrink(ss[ss.startIndex]).map(Character.init)
 	}
 }
 
-extension AnyForwardIndex : Arbitrary {
+extension AnyIndex : Arbitrary {
 	/// Returns a generator of `AnyForwardIndex` values.
-	public static var arbitrary : Gen<AnyForwardIndex> {
-		return Gen<Int64>.choose((1, Int64.max)).flatMap(Gen<AnyForwardIndex>.pure • AnyForwardIndex.init)
-	}
-}
-
-extension AnyRandomAccessIndex : Arbitrary {
-	/// Returns a generator of `AnyRandomAccessIndex` values.
-	public static var arbitrary : Gen<AnyRandomAccessIndex> {
-		return Gen<Int64>.choose((1, Int64.max)).flatMap(Gen<AnyRandomAccessIndex>.pure • AnyRandomAccessIndex.init)
+	public static var arbitrary : Gen<AnyIndex> {
+		return Gen<Int64>.choose((1, Int64.max)).flatMap(Gen<AnyIndex>.pure • AnyIndex.init)
 	}
 }
 
@@ -364,7 +366,7 @@ extension Mirror : Arbitrary {
 
 // MARK: - Implementation Details Follow
 
-private func asAny<T>(x : T) -> Any {
+private func asAny<T>(_ x : T) -> Any {
 	return x
 }
 
@@ -374,11 +376,11 @@ extension Array where Element : Hashable {
 	}
 }
 
-private func unfoldr<A, B>(f : B -> Optional<(A, B)>, initial : B) -> [A] {
+private func unfoldr<A, B>(_ f : (B) -> Optional<(A, B)>, initial : B) -> [A] {
 	var acc = [A]()
 	var ini = initial
 	while let next = f(ini) {
-		acc.insert(next.0, atIndex: 0)
+		acc.insert(next.0, at: 0)
 		ini = next.1
 	}
 	return acc

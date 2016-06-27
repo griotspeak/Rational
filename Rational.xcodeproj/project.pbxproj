@@ -321,14 +321,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Buttons and Lights LLC";
 				TargetAttributes = {
 					32A7BB541B6F78BB00B699B5 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					32A7BB5D1B6F78BB00B699B5 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 					32CD448F1B63F95F0042E80A = {
 						CreatedOnToolsVersion = 7.0;
@@ -458,6 +460,7 @@
 				PRODUCT_NAME = $PROJECT_NAME;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -478,6 +481,8 @@
 				PRODUCT_NAME = $PROJECT_NAME;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -497,6 +502,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.buttonsAndLights.Rational-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -514,6 +520,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.buttonsAndLights.Rational-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -640,6 +648,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.buttonsAndLights.Rational;
 				PRODUCT_NAME = $PROJECT_NAME;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -670,6 +679,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buttonsAndLights.RationalTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
