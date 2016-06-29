@@ -326,6 +326,8 @@
 				TargetAttributes = {
 					32A7BB541B6F78BB00B699B5 = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = K3S3BWK3L4;
+						DevelopmentTeamName = "Thompson Usiyan";
 						LastSwiftMigration = 0800;
 					};
 					32A7BB5D1B6F78BB00B699B5 = {
