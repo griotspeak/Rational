@@ -50,7 +50,7 @@ public struct Rational {
     }
 }
 
-extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
+extension Rational : ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
     // Initialize a Rational from an integer or an integer literal.
     public init(integerLiteral value: Int) {
         self.init(verifiedNumerator: value, verifiedDenominator: 1)
