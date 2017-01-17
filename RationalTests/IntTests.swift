@@ -10,11 +10,11 @@ import XCTest
 import SwiftCheck
 @testable import Rational
 
-@warn_unused_result public func ==(lhs:(quotient: Int, modulus: Int), rhs:(quotient: Int, modulus: Int)) -> Bool {
+public func ==(lhs:(quotient: Int, modulus: Int), rhs:(quotient: Int, modulus: Int)) -> Bool {
     return (lhs.quotient == rhs.quotient) && (lhs.modulus == rhs.modulus)
 }
 
-@warn_unused_result public func ==(lhs:(quotient: Int, remainder: Int), rhs:(quotient: Int, remainder: Int)) -> Bool {
+public func ==(lhs:(quotient: Int, remainder: Int), rhs:(quotient: Int, remainder: Int)) -> Bool {
     return (lhs.quotient == rhs.quotient) && (lhs.remainder == rhs.remainder)
 }
 
