@@ -1,5 +1,6 @@
 # Xcode
 .DS_Store
+.build/*
 */build/*
 *.pbxuser
 !default.pbxuser
@@ -21,4 +22,7 @@ DerivedData
 *.xcscmblueprint
 Carthage/Build
 Carthage/Checkouts
+build/
 
+# Python
+*.pyc
