@@ -9,7 +9,7 @@
 import Darwin
 
 extension Int {
-    internal func divMod(other:Int) -> (quotient:Int, modulus:Int) {
+    internal func divMod(_ other:Int) -> (quotient:Int, modulus:Int) {
         let quotient = self / other
         let remainder = self % other
 
@@ -29,7 +29,7 @@ extension Int {
         }
     }
 
-    internal func quotRem(other:Int) -> (quotient:Int, remainder:Int) {
+    internal func quotRem(_ other:Int) -> (quotient:Int, remainder:Int) {
         return (self / other, self % other)
     }
 }

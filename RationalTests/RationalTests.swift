@@ -11,15 +11,18 @@ import SwiftCheck
 @testable import Rational
 
 extension Rational : Arbitrary {
-    internal static func create(numerator n: Int) -> Int -> Rational {
+    internal static func create(numerator n: Int) -> (Int) -> Rational {
         return { d in Rational(n, d)! }
     }
 
     public static var arbitrary: SwiftCheck.Gen<Rational> {
-        return Rational.create <^> Int.arbitrary <*> Int.arbitrary.suchThat { $0 != 0 }
+        return Gen<Rational>.compose { c in
+            let d = c.generate(using: Int.arbitrary.suchThat { $0 != 0 })
+            return Rational(c.generate(), d)!
+        }
     }
 
-    public static func shrink(value: Rational) -> [Rational] {
+    public static func shrink(_ value: Rational) -> [Rational] {
         let numerators = value.numerator...0
         let denominators = value.denominator..<0
 
@@ -106,7 +109,7 @@ class RationalTests: XCTestCase {
         property("Multiplication's effect pivots on multiplicative identity") <- forAll { (input:(Int, Rational)) in
             let (i, r) = input
             let absI = abs(i)
-            return (absI != 0) && (r.numerator != 0) ==> {
+            return ((absI != 0) && (r.numerator != 0)) ==> {
                 if r.numerator > r.denominator {
                     return Rational(absI) * r > Rational(absI   )
                 } else if r.numerator < r.denominator {

@@ -8,9 +8,9 @@
 
 import Darwin
 
-infix operator • { }
+infix operator •
 
-internal func •<T, U, V>(f: U -> V, g: T -> U) -> T -> V {
+internal func •<T, U, V>(f: @escaping (U) -> V, g: @escaping (T) -> U) -> (T) -> V {
     return { f(g($0)) }
 }
 
@@ -27,7 +27,7 @@ public struct Rational {
         self.init(verifiedNumerator: tuple.numerator, verifiedDenominator: tuple.denominator)
     }
 
-    private init(verifiedNumerator numerator: Int, verifiedDenominator denominator:Int) {
+    fileprivate init(verifiedNumerator numerator: Int, verifiedDenominator denominator:Int) {
         precondition(denominator != 0)
 
         self.numerator = numerator
@@ -50,7 +50,7 @@ public struct Rational {
     }
 }
 
-extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
+extension Rational : ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
     // Initialize a Rational from an integer or an integer literal.
     public init(integerLiteral value: Int) {
         self.init(verifiedNumerator: value, verifiedDenominator: 1)
@@ -66,7 +66,7 @@ extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
 
         let thePower:Int = 10 ** Rational.findExponentForNumber(value)
 
-        let isNegative = value.isSignMinus
+        let isNegative = value.sign == .minus
         let theTuple:(n:Int, d:Int) = Rational.normalizeSign(numerator: (isNegative ? -1 : 1) * lround(value * Double(thePower)), denominator: thePower)
         let theSimpleTuple:(Int, Int) = Rational.lowestTerms(numerator: theTuple.n, denominator: theTuple.d)
         self.init(verified:(theSimpleTuple.0 * (isNegative ? -1 : 1), theSimpleTuple.1))
@@ -74,7 +74,7 @@ extension Rational : IntegerLiteralConvertible, FloatLiteralConvertible {
 }
 
 extension Rational {
-    internal static func normalizeSign(numerator numerator: Int, denominator:Int) -> (Int, Int) {
+    internal static func normalizeSign(numerator: Int, denominator:Int) -> (Int, Int) {
         if denominator < 0 {
             return (-numerator, -denominator)
         } else {
@@ -82,7 +82,7 @@ extension Rational {
         }
     }
 
-    internal static func lowestTerms(numerator numerator: Int, denominator:Int) -> (Int, Int) {
+    internal static func lowestTerms(numerator: Int, denominator:Int) -> (Int, Int) {
         let common = greatestCommonDivisor(abs(numerator), abs(denominator))
         return  (sNumerator: numerator/common, sDenominator: denominator/common)
     }
@@ -153,7 +153,7 @@ extension Rational {
 
     /// Return the greatest common factor for the two integer arguments. This function uses the iterative Euclidean
     /// algorithm for calculating GCF.
-    public static func greatestCommonDivisor(lhs: Int, _ rhs: Int) -> Int {
+    public static func greatestCommonDivisor(_ lhs: Int, _ rhs: Int) -> Int {
         var a = lhs
         var b = rhs
         while b != 0 {
@@ -164,41 +164,41 @@ extension Rational {
         return a
     }
 
-    public static func leastCommonMultiple(lhs: Int, _ rhs: Int) -> Int {
+    public static func leastCommonMultiple(_ lhs: Int, _ rhs: Int) -> Int {
         return (abs(lhs) / greatestCommonDivisor(lhs, rhs)) * abs(rhs)
     }
 
-    public static func findLeastCommonDenominatorAndApply<T>(lhs: Rational, rhs: Rational, transform:(lhsNumerator: Int, rhsNumerator:Int, denominator: Int) -> T) -> T {
+    public static func findLeastCommonDenominatorAndApply<T>(_ lhs: Rational, rhs: Rational, transform:(_ lhsNumerator: Int, _ rhsNumerator:Int, _ denominator: Int) -> T) -> T {
         let newDenominator = Rational.leastCommonDenominator(lhs, rhs)
 
         let leftNumerator = lhs.numerator * (newDenominator / lhs.denominator)
         let rightNumerator = rhs.numerator * (newDenominator / rhs.denominator)
 
-        return transform(lhsNumerator: leftNumerator, rhsNumerator: rightNumerator, denominator: newDenominator)
+        return transform(leftNumerator, rightNumerator, newDenominator)
     }
 
     /* @todo figure out a good name 2015-07-28 */
-    public static func findLeastCommonDenominatorAndOperateOnNumerators(lhs: Rational, rhs: Rational, computeNumerator:(newLeftNumerator: Int, newRightNumerator:Int) -> Int) -> Rational {
+    public static func findLeastCommonDenominatorAndOperateOnNumerators(_ lhs: Rational, rhs: Rational, computeNumerator:(_ newLeftNumerator: Int, _ newRightNumerator:Int) -> Int) -> Rational {
 
         return findLeastCommonDenominatorAndApply(lhs, rhs: rhs) { (newLeftNumerator, newRightNumerator, denominator) -> Rational in
-            let theTuple = Rational.normalizeSign(numerator: computeNumerator(newLeftNumerator: newLeftNumerator, newRightNumerator: newRightNumerator), denominator: denominator)
+            let theTuple = Rational.normalizeSign(numerator: computeNumerator(newLeftNumerator, newRightNumerator), denominator: denominator)
             return Rational(verified: theTuple)
         }
 
     }
 
-    static func greatestCommonDenominator(lhs: Rational, _ rhs: Rational) -> Int {
+    static func greatestCommonDenominator(_ lhs: Rational, _ rhs: Rational) -> Int {
         return greatestCommonDivisor(lhs.denominator, rhs.denominator)
     }
 
-    static func leastCommonDenominator(lhs: Rational, _ rhs: Rational) -> Int {
+    static func leastCommonDenominator(_ lhs: Rational, _ rhs: Rational) -> Int {
         return leastCommonMultiple(lhs.denominator, rhs.denominator)
     }
 
-    private static func findExponentForNumber(input:Double) -> Int {
+    fileprivate static func findExponentForNumber(_ input:Double) -> Int {
 
-        func _findExp(accum:Int, _ remainder:Double) -> (accum:Int, remainder:Double) {
-            if remainder % 1 == 0 {
+        func _findExp(_ accum:Int, _ remainder:Double) -> (accum:Int, remainder:Double) {
+            if remainder.truncatingRemainder(dividingBy: 1) == 0 {
                 return (accum, remainder)
             } else {
                 return _findExp(accum + 1, remainder * 10)
